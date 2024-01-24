@@ -3,7 +3,6 @@ from rclpy.node import Node
 from sensor_msgs.msg import Image
 import cv2 as cv
 from cv_bridge import CvBridge
-from yolo.utils.general import check_imshow
 import time, os, datetime
 
 
@@ -33,11 +32,6 @@ class recordingNode(Node):
         self.fps = 30  # Set the frame rate of the video
         self.fourcc = cv.VideoWriter_fourcc(*'XVID') # *.avi
         self.videoSaveSettings()
-
-        # Check whether the screen can be displayed 
-        self.view_img = False
-        if self.view_img:
-            self.view_img = check_imshow()
 
         print("Start recording")
 
@@ -84,10 +78,6 @@ class recordingNode(Node):
                 self.out.write(cv_image)
             else:
                 print("No Img")
-
-            if self.view_img:
-                cv.imshow('Camera Image', cv_image)
-                cv.waitKey(1)
                 
         except KeyboardInterrupt:
             self.out.release()
